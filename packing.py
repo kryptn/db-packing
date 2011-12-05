@@ -1,17 +1,22 @@
 #!/usr/bin/python
 
 class Box(object):
+   """ object for each box. """
    def __init__(self, width, height):
       width, height = int(width), int(height)
       self.width = width
       self.height = height
       self.area = width*height
+      self.x = None
+      self.y = None
    
    def rotate(self):
+      """ switches height and width, essentially rotating. """
       self.width, self.height = self.height, self.width
 
    @property
    def box(self):
+      """ returns appropriate tuple. """
       return (self.width, self.height)
 
    def __repr__(self):
@@ -36,8 +41,9 @@ class Pack(object):
 
       self.boxes = boxes
    
-   def largest(self, boxes=self.boxes):
+   def largest(self, boxes):
       """ finds the largest 'box' in the list """
+
       l = 0
       for i, x in enumerate(boxes):
          if x.area > boxes[l].area:
@@ -54,6 +60,15 @@ class Pack(object):
       for i, box in enumerate(self.boxes):
          if box.width > box.height:
             self.boxes[i].rotate()
+
+   def build(self):
+      boxes = self.boxes
+      allocated = list()
+
+      while boxes:
+         box = boxes.pop(self.largest(boxes))
+         
+
       
    def __init__(self, sample=None):
       if sample:
@@ -61,6 +76,7 @@ class Pack(object):
       else:
          self.input()
       
+      self.allocated = list()      
       self.optimal = sum([x.area for x in self.boxes])
 
 if __name__ == '__main__':
